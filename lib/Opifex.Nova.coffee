@@ -1,6 +1,7 @@
 # Opifex.Nova.coffee
 #
 #	© 2013 Dave Goehrig <dave@dloh.org>
+#	© 2014 wot.io LLC
 #
 
 cloud = require 'pkgcloud'
