@@ -9,7 +9,12 @@ config = require "#{process.env.HOME}/.nova.coffee"
 
 Nova = () ->
 	self = this
-	self.client = cloud.providers.rackspace.compute.createClient { username: config.username, apiKey: config.api.key }
+	self.client = cloud.providers.rackspace.compute.createClient {
+		username: config.username
+		apiKey: config.apikey
+		authUrl: config.url or 'https://identity.api.rackspacecloud.com'
+		region: config.region or 'ORD'
+	}
 	self["list.flavors"] = () ->
 		self.client.getFlavors (error, flavors) ->
 			if error
