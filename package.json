@@ -13,10 +13,14 @@
 		"opifex" : ">=0.0.6",
 		"pkgcloud" : ">=0.8.14"
 	},
-	"devDependencies": {},
+	"devDependencies": {
+		"mocha": "==1.20.1"
+	},
 	"optionalDependencies": {},
 	"engines": {
 		"node": ">=0.10.15"
+	},
+	"scripts": {
+		"test": "make test"
 	}
 }
-
