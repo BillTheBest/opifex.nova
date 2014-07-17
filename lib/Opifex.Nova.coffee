@@ -6,7 +6,7 @@
 
 cloud = require 'pkgcloud'
 config = require "#{process.env.HOME}/.nova.coffee" or {}
-config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKEY', 'URL
+config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKEY', 'URL', 'REGION']
 
 Nova = () ->
 	self = this
