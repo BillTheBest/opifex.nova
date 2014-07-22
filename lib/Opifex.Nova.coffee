@@ -13,6 +13,7 @@ config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKE
 
 Nova = () ->
 	self = this
+	self.servers = []
 	self.client = cloud.providers.rackspace.compute.createClient {
 		username: config.username
 		apiKey: config.apikey
@@ -61,11 +62,12 @@ Nova = () ->
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
 			self.send [ 'nova', 'list.servers', self.servers ]
-	self["create.server"] = (name,image,flavor) ->
+	self["create.server"] = (name,image,flavor,metadata={}) ->
 		self.client.createServer {
 			name: name,
 			image: image,
 			flavor: flavor,
+			metadata: metadata,
 			}, (error, server) ->
 				if error
 					console.log "Failed to create server #{error}"
@@ -81,6 +83,14 @@ Nova = () ->
 			console.log(image)
 			self.send [ 'nova', 'snapshot.server', image.name, image.id ]
 			self.images.push(image)
+	self["delete.server"] = (id) ->
+		self.client.destroyServer (id), (error, serverId) ->
+			if error
+				console.log "Failed to delete server #{error}"
+				return self.send [ 'nova', 'error', error ]
+			console.log(server)
+			self.send [ 'nova', 'delete.server', server ]
+			self.servers = server for server in servers when server.id != id
 	self["help"] = () ->
 		self.send [ 'nova', 'help', [ 'list.servers'], ['list.flavors'], ['list.images'], ['create.server', 'name','image','flavor'],['snapshot.server','name','image' ] ]
 	self["*"] = (message...) ->
