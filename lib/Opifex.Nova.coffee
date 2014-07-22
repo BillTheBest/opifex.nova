@@ -89,8 +89,8 @@ Nova = () ->
 				console.log "Failed to delete server #{error}"
 				return self.send [ 'nova', 'error', error ]
 			console.log(server)
-			self.send [ 'nova', 'delete.server', server ]
-			self.servers = server for server in servers when server.id != id
+			self.send [ 'nova', 'delete.server', serverId ]
+			self.servers = server for server in self.servers when server.id != id
 	self["help"] = () ->
 		self.send [ 'nova', 'help', [ 'list.servers'], ['list.flavors'], ['list.images'], ['create.server', 'name','image','flavor'],['snapshot.server','name','image' ] ]
 	self["*"] = (message...) ->
