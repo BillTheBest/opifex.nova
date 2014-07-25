@@ -63,11 +63,14 @@ Nova = () ->
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
 			self.send [ 'nova', 'list.servers', self.servers ]
 	self["create.server"] = (name,image,flavor,metadata={}) ->
+		# check for empty object
+		cfgdrive = (i for own i of metadata).length != 0
 		self.client.createServer {
 			name: name,
 			image: image,
 			flavor: flavor,
 			metadata: metadata,
+			cfgdrive: cfgdrive,
 			}, (error, server) ->
 				if error
 					console.log "Failed to create server #{error}"
