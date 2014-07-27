@@ -62,15 +62,19 @@ Nova = () ->
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
 			self.send [ 'nova', 'list.servers', self.servers ]
-	self["create.server"] = (name,image,flavor,metadata={}) ->
-		# check for empty object
-		cfgdrive = (i for own i of metadata).length != 0
+	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
+		# If we were passed metadata or userdata, then we need to use a cfgdrive.
+		if (i for own i of metadata).length != 0 or userdata
+			cfgdrive = true
+		else
+			cfgdrive = false
 		self.client.createServer {
 			name: name,
 			image: image,
 			flavor: flavor,
 			metadata: metadata,
 			cfgdrive: cfgdrive,
+			userdata: userdata,
 			}, (error, server) ->
 				if error
 					console.log "Failed to create server #{error}"
