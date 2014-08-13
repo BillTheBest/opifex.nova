@@ -40,3 +40,12 @@ To create a server, you can then run something like:
 
 	$ wscat --connect ws://localhost:8080/wot/agy/%23/agy/agy/agy/
 	> ["create.server", "agy.test01", "abd98481-6e82-4410-a01d-8360cb3d1f65", 2, {"dns_server": "10.209.64.127"}]
+
+Starting a machine with meta-data can also be done "manually" from the command line:
+
+	$ source ~/.novarc
+	$ nova boot --flavor performance1-1 --image abd98481-6e82-4410-a01d-8360cb3d1f65 \
+		--meta local-hostname=agy.test01.wot.io \
+		--meta dns_server=10.209.64.127 \
+		--config-drive true \
+		agy.test01
