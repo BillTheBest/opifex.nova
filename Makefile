@@ -6,6 +6,7 @@ TESTS = test/*.coffee
 
 lint:
 	@coffee -p $(LIBS) > /dev/null
+	@cat package.json | python -mjson.tool > /dev/null
 
 test:
 	@NODE_ENV=test $(MOCHA) \
