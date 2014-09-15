@@ -19,6 +19,7 @@ Nova = () ->
 		apiKey: config.apikey
 		authUrl: config.url or 'https://identity.api.rackspacecloud.com'
 		region: config.region or 'ORD'
+		useInternal: true
 	}
 	self["list.flavors"] = () ->
 		self.client.getFlavors (error, flavors) ->
@@ -32,7 +33,8 @@ Nova = () ->
 				vcpus: x.vcpus
 				disk: x.disk
 				swap: x.swap
-			self.send  [ 'nova', 'list.flavors', self.flavors ]
+			console.log [ 'nova', 'list.flavors', self.flavors ]
+			self.send JSON.stringify [ 'nova', 'list.flavors', self.flavors ]
 	self["list.images"] = () ->
 		self.client.getImages (error, images) ->
 			if error
@@ -45,7 +47,8 @@ Nova = () ->
 				updated: x.updated
 				status: x.status
 				progress: x.progress
-			self.send  [ 'nova', 'list.images', self.images ]
+			console.log [ 'nova', 'list.images', self.images ]	
+			self.send JSON.stringify [ 'nova', 'list.images', self.images ]
 	self["list.servers"] = () ->
 		self.client.getServers (error, servers) ->
 			if error
@@ -61,7 +64,8 @@ Nova = () ->
 				host: x.hostId
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
-			self.send [ 'nova', 'list.servers', self.servers ]
+			console.log [ 'nova', 'list.servers', self.servers ]
+			self.send JSON.stringify [ 'nova', 'list.servers', self.servers ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
 		if (i for own i of metadata).length != 0 or userdata
@@ -100,7 +104,5 @@ Nova = () ->
 			self.servers = server for server in self.servers when server.id != id
 	self["help"] = () ->
 		self.send [ 'nova', 'help', [ 'list.servers'], ['list.flavors'], ['list.images'], ['create.server', 'name','image','flavor'],['snapshot.server','name','image' ] ]
-	self["*"] = (message...) ->
-		console.log "Unknown message #{ JSON.stringify(message) }"
-
+	
 module.exports = Nova
