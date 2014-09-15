@@ -14,4 +14,4 @@ test:
 		--compilers $(COMPILERS) \
 		$(TESTS)
 
-.PHONY: test lint
+include ../wot-make/npm.mk
