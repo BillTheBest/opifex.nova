@@ -147,6 +147,8 @@ example response:
 ]
 
 ```
+
+```
 ["snapshot.server","name","image.id" ]
 ```
 
