@@ -33,7 +33,6 @@ Nova = () ->
 				vcpus: x.vcpus
 				disk: x.disk
 				swap: x.swap
-			console.log [ 'nova', 'list.flavors', self.flavors ]
 			self.send JSON.stringify [ 'nova', 'list.flavors', self.flavors ]
 	self["list.images"] = () ->
 		self.client.getImages (error, images) ->
@@ -47,7 +46,6 @@ Nova = () ->
 				updated: x.updated
 				status: x.status
 				progress: x.progress
-			console.log [ 'nova', 'list.images', self.images ]	
 			self.send JSON.stringify [ 'nova', 'list.images', self.images ]
 	self["list.servers"] = () ->
 		self.client.getServers (error, servers) ->
@@ -64,7 +62,6 @@ Nova = () ->
 				host: x.hostId
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
-			console.log [ 'nova', 'list.servers', self.servers ]
 			self.send JSON.stringify [ 'nova', 'list.servers', self.servers ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
