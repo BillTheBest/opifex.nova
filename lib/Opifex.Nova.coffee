@@ -68,6 +68,8 @@ Nova = () ->
 			self.send JSON.stringify [ 'nova', 'list.servers', self.servers ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
+		console.log metadata
+		
 		if (i for own i of metadata).length != 0 or userdata
 			cfgdrive = true
 		else
@@ -100,9 +102,9 @@ Nova = () ->
 				console.log "Failed to delete server #{error}"
 				return self.send [ 'nova', 'error', error ]
 			console.log(server)
-			self.send [ 'nova', 'delete.server', serverId ]
+			self.send [ 'nova', 'delete.server', id ]
 			self.servers = server for server in self.servers when server.id != id
 	self["help"] = () ->
-		self.send [ 'nova', 'help', [ 'list.servers'], ['list.flavors'], ['list.images'], ['create.server', 'name','image','flavor'],['snapshot.server','name','image' ] ]
+		self.send [ 'nova', 'help', [ 'list.servers' ], [ 'list.flavors' ], [ 'list.images' ], [ 'create.server', 'name','image.id','flavor' ],[ 'snapshot.server','name','image.id' ],[ 'delete.server','image.id' ] ]
 	
 module.exports = Nova
