@@ -133,6 +133,31 @@ example response:
 ```
 
 ```
+["get.server","af6b476e-dc03-4858-8ecf-bdff4745343b"]
+```
+
+example response:
+```
+[
+	"nova",
+	"get.server",
+	[
+		{
+			"id":"image.id",
+			"name":"image.name",
+			"created":"image.created",
+			"updated":"image.updated",
+			"status":"ACTIVE",
+			"progress":100
+		},
+		{
+			...
+		}
+	]
+]
+```
+
+```
 ["create.server","server.example.com","image.id","flavor",{"local-hostname":"server.example.com","dns_server":"dns.example.com"},"userdata"]
 ```
 
