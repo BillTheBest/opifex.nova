@@ -81,7 +81,7 @@ Nova = () ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
 		console.log metadata
 		
-		if (i for own i of metadata).length != 0 or userdata
+		if (i for own i of metadata).length != 0 or userdata?
 			cfgdrive = true
 		else
 			cfgdrive = false
