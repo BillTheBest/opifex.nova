@@ -62,7 +62,7 @@ Nova = () ->
 				host: x.hostId
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
-			self.send [ 'nova', 'list.servers', self.servers ]
+			self.send [ 'nova', 'list.servers' ].concat(self.servers)
 	self["get.server"] = (server_id) ->
         self.client.getServer server_id, (error, server) ->
             if error
