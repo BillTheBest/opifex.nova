@@ -9,7 +9,7 @@ try
        config = require "#{process.env.HOME}/.nova.coffee"
 catch
        config = {}
-config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKEY', 'URL', 'REGION']
+config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKEY', 'URL', 'REGION', 'CLUSTER']
 
 Nova = () ->
 	self = this
@@ -52,7 +52,10 @@ Nova = () ->
 			if error
 				console.log "Failed to fetch servers #{error}"
 				return self.send [ 'nova', 'error', error ]
-			self.servers = servers.map (x) ->
+			re = new RegExp(config.cluster)
+			self.servers = servers.filter (srv) ->
+				return re.test srv.name
+			.map (x) ->
 				id: x.id
 				name: x.name
 				status: x.status
