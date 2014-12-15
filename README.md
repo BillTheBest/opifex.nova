@@ -82,6 +82,8 @@ example response:
 ]
 ```	
 
+Note: `list.servers` only displays the current running cluster (which should be present in the hostname).
+
 ```
 ["list.flavors"]
 ```
