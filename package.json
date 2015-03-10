@@ -10,7 +10,7 @@
   "main": "./lib/Opifex.Nova.coffee",
   "bin": {},
   "dependencies": {
-    "opifex": ">=0.2.3",
+    "opifex": "0.3.5",
     "pkgcloud": ">=0.8.14"
   },
   "devDependencies": {
