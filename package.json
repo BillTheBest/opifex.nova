@@ -3,7 +3,7 @@
   "name": "opifex.nova",
   "license": "MIT",
   "description": "Manages OpenStack Nova via AMP",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "repository": {
     "url": "http://github.com/cthulhuology/opifex.nova"
   },
