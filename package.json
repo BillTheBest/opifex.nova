@@ -10,7 +10,7 @@
   "main": "./lib/Opifex.Nova.coffee",
   "bin": {},
   "dependencies": {
-    "opifex": "0.3.5",
+    "opifex": "==1.0.1",
     "pkgcloud": "==0.9.9"
   },
   "devDependencies": {
@@ -18,9 +18,12 @@
   },
   "optionalDependencies": {},
   "engines": {
-    "node": ">=0.10.15"
+    "node": ">=0.12.0"
   },
   "scripts": {
     "test": "make test"
+  },
+  "publishConfig": {
+    "registry": "https://npm.wot.io"
   }
 }
