@@ -25,7 +25,7 @@ Nova = () ->
 		self.client.getFlavors (error, flavors) ->
 			if error
 				console.log "Failed to fetch flavors #{error}"
-				return self.send [ 'nova', 'error', error ]
+				return self.send JSON.stringify [ 'nova', 'error', error ]
 			self.flavors = flavors.map (x) ->
 				id: x.id
 				name: x.name
@@ -33,12 +33,12 @@ Nova = () ->
 				vcpus: x.vcpus
 				disk: x.disk
 				swap: x.swap
-			self.send [ 'nova', 'list.flavors' ].concat(self.flavors)
+			self.send JSON.stringify [ 'nova', 'list.flavors' ].concat(self.flavors)
 	self["list.images"] = () ->
 		self.client.getImages (error, images) ->
 			if error
 				console.log "Failed to fetch images #{error}"
-				return self.send [ 'nova', 'error', error ]
+				return self.send JSON.stringify [ 'nova', 'error', error ]
 			self.images = images.map (x) ->
 				id: x.id
 				name: x.name
@@ -46,12 +46,12 @@ Nova = () ->
 				updated: x.updated
 				status: x.status
 				progress: x.progress
-			self.send [ 'nova', 'list.images' ].concat(self.images)
+			self.send JSON.stringify [ 'nova', 'list.images' ].concat(self.images)
 	self["list.servers"] = () ->
 		self.client.getServers (error, servers) ->
 			if error
 				console.log "Failed to fetch servers #{error}"
-				return self.send [ 'nova', 'error', error ]
+				return self.send JSON.stringify [ 'nova', 'error', error ]
 			re = new RegExp(config.cluster)
 			self.servers = servers.filter (srv) ->
 				return re.test srv.name
@@ -65,12 +65,12 @@ Nova = () ->
 				host: x.hostId
 				public:  (x.addresses.public.filter (y) -> y.version == 4)[0].addr
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
-			self.send [ 'nova', 'list.servers' ].concat(self.servers)
+			self.send JSON.stringify [ 'nova', 'list.servers' ].concat(self.servers)
 	self["get.server"] = (server_id) ->
         self.client.getServer server_id, (error, server) ->
             if error
                 console.log "Failed to get server #{error}"
-                return self.send [ 'nova', 'error', error ]
+                return self.send JSON.stringify [ 'nova', 'error', error ]
             self.server = {
                 id: server.id
                 name: server.name
@@ -79,7 +79,7 @@ Nova = () ->
                 status: server.status
                 progress: server.progress
                 }
-            self.send [ 'nova', 'get.server', self.server ]
+            self.send JSON.stringify [ 'nova', 'get.server', self.server ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
 		console.log metadata
@@ -98,27 +98,27 @@ Nova = () ->
 			}, (error, server) ->
 				if error
 					console.log "Failed to create server #{error}"
-					return self.send [ 'nova', 'error', error ]
+					return self.send JSON.stringify [ 'nova', 'error', error ]
 				console.log(server)
-				self.send ['nova', "create.server", server.name, server.id, server.adminPass ]
+				self.send JSON.stringify ['nova', "create.server", server.name, server.id, server.adminPass ]
 				self.servers.push server
 	self["snapshot.server"] = (name,id) ->
 		self.client.createImage { name: name, server: id }, (error, image) ->
 			if error
 				console.log "Failed to snapshot server #{error}"
-				return self.send [ 'nova', 'error', error ]
+				return self.send JSON.stringify [ 'nova', 'error', error ]
 			console.log(image)
-			self.send [ 'nova', 'snapshot.server', image.name, image.id ]
+			self.send JSON.stringify [ 'nova', 'snapshot.server', image.name, image.id ]
 			self.images.push(image)
 	self["delete.server"] = (id) ->
 		self.client.destroyServer (id), (error, serverId) ->
 			if error
 				console.log "Failed to delete server #{error}"
-				return self.send [ 'nova', 'error', error ]
+				return self.send JSON.stringify [ 'nova', 'error', error ]
 			console.log(server)
-			self.send [ 'nova', 'delete.server', id ]
+			self.send JSON.stringify [ 'nova', 'delete.server', id ]
 			self.servers = server for server in self.servers when server.id != id
 	self["help"] = () ->
-		self.send [ 'nova', 'help', [ 'list.servers' ], [ 'list.flavors' ], [ 'list.images' ], [ 'create.server', 'name','image.id','flavor' ],[ 'snapshot.server','name','image.id' ],[ 'delete.server','image.id' ] ]
+		self.send JSON.stringify [ 'nova', 'help', [ 'list.servers' ], [ 'list.flavors' ], [ 'list.images' ], [ 'create.server', 'name','image.id','flavor' ],[ 'snapshot.server','name','image.id' ],[ 'delete.server','image.id' ] ]
 	
 module.exports = Nova
