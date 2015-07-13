@@ -3,25 +3,25 @@
   "name": "opifex.nova",
   "license": "MIT",
   "description": "Manages OpenStack Nova via AMP",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "repository": {
     "url": "http://github.com/cthulhuology/opifex.nova"
   },
   "main": "./lib/Opifex.Nova.coffee",
   "bin": {},
   "dependencies": {
-    "opifex": "==1.1.3",
+    "opifex": "==1.1.5",
     "pkgcloud": "==0.9.9"
   },
   "devDependencies": {
-    "mocha": "==1.20.1"
+    "tap": "^1.3.1"
   },
   "optionalDependencies": {},
   "engines": {
     "node": ">=0.12.0"
   },
   "scripts": {
-    "test": "make test"
+    "test": "tap test/[0-9]*.coffee"
   },
   "publishConfig": {
     "registry": "https://npm.wot.io"
