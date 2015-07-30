@@ -24,7 +24,7 @@ Nova = () ->
 	self["list.flavors"] = () ->
 		self.client.getFlavors (error, flavors) ->
 			if error
-				console.log "Failed to fetch flavors #{error}"
+				self?.log?.error "Failed to fetch flavors #{error}"
 				return self.send JSON.stringify [ 'nova', 'error', error ]
 			self.flavors = flavors.map (x) ->
 				id: x.id
@@ -37,7 +37,7 @@ Nova = () ->
 	self["list.images"] = () ->
 		self.client.getImages (error, images) ->
 			if error
-				console.log "Failed to fetch images #{error}"
+				self?.log?.error "Failed to fetch images #{error}"
 				return self.send JSON.stringify [ 'nova', 'error', error ]
 			self.images = images.map (x) ->
 				id: x.id
@@ -50,7 +50,7 @@ Nova = () ->
 	self["list.servers"] = () ->
 		self.client.getServers (error, servers) ->
 			if error
-				console.log "Failed to fetch servers #{error}"
+				self?.log?.error "Failed to fetch servers #{error}"
 				return self.send JSON.stringify [ 'nova', 'error', error ]
 			re = new RegExp(config.cluster)
 			self.servers = servers.filter (srv) ->
@@ -69,7 +69,7 @@ Nova = () ->
 	self["get.server"] = (server_id) ->
         self.client.getServer server_id, (error, server) ->
             if error
-                console.log "Failed to get server #{error}"
+                self?.log?.error "Failed to get server #{error}"
                 return self.send JSON.stringify [ 'nova', 'error', error ]
             self.server = {
                 id: server.id
@@ -82,7 +82,7 @@ Nova = () ->
             self.send JSON.stringify [ 'nova', 'get.server', self.server ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
-		console.log metadata
+		self?.log?.debug(metadata)
 		
 		if (i for own i of metadata).length != 0 or userdata?
 			cfgdrive = true
@@ -97,25 +97,25 @@ Nova = () ->
 			userdata: userdata,
 			}, (error, server) ->
 				if error
-					console.log "Failed to create server #{error}"
+					self?.log?.error "Failed to create server #{error}"
 					return self.send JSON.stringify [ 'nova', 'error', error ]
-				console.log(server)
+				self?.log?.debug(server)
 				self.send JSON.stringify ['nova', "create.server", server.name, server.id, server.adminPass ]
 				self.servers.push server
 	self["snapshot.server"] = (name,id) ->
 		self.client.createImage { name: name, server: id }, (error, image) ->
 			if error
-				console.log "Failed to snapshot server #{error}"
+				self?.log?.error "Failed to snapshot server #{error}"
 				return self.send JSON.stringify [ 'nova', 'error', error ]
-			console.log(image)
+			self?.log?.debug(image)
 			self.send JSON.stringify [ 'nova', 'snapshot.server', image.name, image.id ]
 			self.images.push(image)
 	self["delete.server"] = (id) ->
 		self.client.destroyServer (id), (error, serverId) ->
 			if error
-				console.log "Failed to delete server #{error}"
+				self?.log?.error "Failed to delete server #{error}"
 				return self.send JSON.stringify [ 'nova', 'error', error ]
-			console.log(server)
+			self?.log?.debug(server)
 			self.send JSON.stringify [ 'nova', 'delete.server', id ]
 			self.servers = server for server in self.servers when server.id != id
 	self["help"] = () ->
