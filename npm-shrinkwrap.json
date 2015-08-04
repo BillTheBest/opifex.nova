@@ -3,8 +3,8 @@
   "version": "1.1.5",
   "dependencies": {
     "opifex": {
-      "version": "1.1.8",
-      "from": "opifex@1.1.8",
+      "version": "1.1.9",
+      "from": "opifex@1.1.9",
       "dependencies": {
         "wot-amqplib": {
           "version": "0.3.1",
@@ -180,11 +180,11 @@
                 },
                 "aws-sign2": {
                   "version": "0.5.0",
-                  "from": "aws-sign2@>=0.5.0 <0.6.0"
+                  "from": "aws-sign2@0.5.0"
                 },
                 "stringstream": {
                   "version": "0.0.4",
-                  "from": "stringstream@>=0.0.4 <0.1.0"
+                  "from": "stringstream@0.0.4"
                 },
                 "combined-stream": {
                   "version": "0.0.7",
@@ -418,7 +418,7 @@
             },
             "forever-agent": {
               "version": "0.5.2",
-              "from": "forever-agent@>=0.5.0 <0.6.0"
+              "from": "forever-agent@0.5.2"
             },
             "tunnel-agent": {
               "version": "0.3.0",
@@ -452,7 +452,7 @@
                 },
                 "boom": {
                   "version": "0.4.2",
-                  "from": "boom@>=0.4.0 <0.5.0",
+                  "from": "boom@0.4.2",
                   "dependencies": {
                     "hoek": {
                       "version": "0.9.1",
@@ -462,11 +462,11 @@
                 },
                 "cryptiles": {
                   "version": "0.2.2",
-                  "from": "cryptiles@>=0.2.0 <0.3.0"
+                  "from": "cryptiles@0.2.2"
                 },
                 "sntp": {
                   "version": "0.2.4",
-                  "from": "sntp@>=0.2.0 <0.3.0",
+                  "from": "sntp@0.2.4",
                   "dependencies": {
                     "hoek": {
                       "version": "0.9.1",
@@ -584,7 +584,7 @@
                           "dependencies": {
                             "balanced-match": {
                               "version": "0.2.0",
-                              "from": "balanced-match@>=0.2.0 <0.3.0"
+                              "from": "balanced-match@0.2.0"
                             },
                             "concat-map": {
                               "version": "0.0.1",
