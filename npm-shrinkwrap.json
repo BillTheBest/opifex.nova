@@ -1,6 +1,6 @@
 {
   "name": "opifex.nova",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "dependencies": {
     "opifex": {
       "version": "1.1.11",
@@ -90,7 +90,7 @@
               "dependencies": {
                 "cycle": {
                   "version": "1.0.3",
-                  "from": "cycle@>=1.0.3 <1.1.0"
+                  "from": "cycle@>=1.0.0 <1.1.0"
                 },
                 "glossy": {
                   "version": "0.1.7",
@@ -262,7 +262,7 @@
                 },
                 "isstream": {
                   "version": "0.1.2",
-                  "from": "isstream@>=0.1.1 <0.2.0"
+                  "from": "isstream@>=0.1.0 <0.2.0"
                 },
                 "har-validator": {
                   "version": "1.8.0",
@@ -570,7 +570,7 @@
                     },
                     "inherits": {
                       "version": "2.0.1",
-                      "from": "inherits@>=2.0.1 <2.1.0"
+                      "from": "inherits@>=2.0.0 <3.0.0"
                     },
                     "minimatch": {
                       "version": "3.0.0",
