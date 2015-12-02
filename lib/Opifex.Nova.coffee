@@ -6,9 +6,9 @@
 
 cloud = require 'pkgcloud'
 try
-       config = require "#{process.env.HOME}/.nova.coffee"
+	   config = require "#{process.env.HOME}/.nova.coffee"
 catch
-       config = {}
+	   config = {}
 config[key.toLowerCase()] = "#{process.env[key]}" for key in ['USERNAME', 'APIKEY', 'URL', 'REGION', 'CLUSTER']
 
 Nova = () ->
@@ -67,19 +67,21 @@ Nova = () ->
 				private:  (x.addresses.private.filter (y) -> y.version == 4)[0].addr
 			self.send [ 'nova', 'list.servers' ].concat(self.servers)
 	self["get.server"] = (server_id) ->
-        self.client.getServer server_id, (error, server) ->
-            if error
-                self?.log?.error "Failed to get server #{error}"
-                return self.send [ 'nova', 'error', error ]
-            self.server = {
-                id: server.id
-                name: server.name
-                created: server.created
-                updated: server.updated
-                status: server.status
-                progress: server.progress
-                }
-            self.send [ 'nova', 'get.server', self.server ]
+		self.client.getServer server_id, (error, server) ->
+			if error
+				self?.log?.error "Failed to get server #{error}"
+				return self.send [ 'nova', 'error', error ]
+			self.server = {
+				id: server.id
+				name: server.name
+				created: server.created
+				updated: server.updated
+				status: server.status
+				progress: server.progress
+				public: (server.addresses.public.filter (x) -> x.version == 4)[0].addr
+				private: (server.addresses.private.filter (x) -> x.version == 4)[0].addr
+			}
+			self.send [ 'nova', 'get.server', self.server ]
 	self["create.server"] = (name,image,flavor,metadata={},userdata='') ->
 		# If we were passed metadata or userdata, then we need to use a cfgdrive.
 		self?.log?.debug(metadata)
